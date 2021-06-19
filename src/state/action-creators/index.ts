@@ -10,9 +10,7 @@ export const getData = () => {
     });
 
     try {
-      const { data } = await axios.get(
-        'https://app.fakejson.com/q/xdOdc9ZF?token=M37SFqOXjnZXOBpUuOCRXA__00'
-      );
+      const { data } = await axios.get('https://app.fakejson.com/q/__00');
 
       dispatch({
         type: ActionType.GET_API_DATA_SUCCESS,
