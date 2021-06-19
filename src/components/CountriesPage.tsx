@@ -3,8 +3,41 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { actionCreators, RootState } from '../state';
+import { Redirect } from 'react-router-dom';
+import styled from 'styled-components';
 
-const Title: React.FC = () => {
+const Div = styled.div`
+  background-color: #fff;
+  color: var(--text-color);
+  padding: 1rem 2rem;
+  border-radius: 20px;
+  max-width: 500px;
+  margin: auto;
+  margin-top: 300px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const H1 = styled.h1`
+  text-align: center;
+`;
+
+const Select = styled.select`
+  padding: 20px;
+  width: 10px;
+`;
+
+const Button = styled.button`
+  background-color: var(--button-color);
+  border: none;
+  border-radius: 20px;
+  margin-top: 20px;
+  padding: 10px;
+  font-size: 20px;
+  font-weight: bold;
+`;
+
+const Home: React.FC = () => {
   const [countries, setCountries] = useState([
     {
       id: '0',
@@ -28,6 +61,7 @@ const Title: React.FC = () => {
     actionCreators,
     dispatch
   );
+
   const state = useSelector((state: RootState) => state);
 
   useEffect(() => {
@@ -39,19 +73,23 @@ const Title: React.FC = () => {
     getCountries();
   }, []);
 
+  if (state.country.selectedCountry !== '') {
+    return <Redirect to="/home" />;
+  }
+
   return (
-    <>
-      <h1>Select your country</h1>
-      <select onChange={e => setSelectedCountry(e.target.value)}>
+    <Div>
+      <H1>Select your country</H1>
+      <Select onChange={e => setSelectedCountry(e.target.value)}>
         {countries.map(country => (
           <option key={country.id} value={country.name}>
             {country.name}
           </option>
         ))}
-      </select>
-      <button onClick={() => submitCountry(selectedCountry)}>Submit</button>
-    </>
+      </Select>
+      <Button onClick={() => submitCountry(selectedCountry)}>Submit</Button>
+    </Div>
   );
 };
 
-export default Title;
+export default Home;

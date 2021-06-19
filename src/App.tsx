@@ -4,7 +4,9 @@ import CountriesPage from './components/CountriesPage';
 const App = () => {
   return (
     <BrowserRouter>
-      <Route path="/" component={CountriesPage} />
+      <div className="app">
+        <Route path="/" component={CountriesPage} />
+      </div>
     </BrowserRouter>
   );
 };
