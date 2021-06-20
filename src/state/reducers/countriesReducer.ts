@@ -1,16 +1,26 @@
 import { ActionType } from '../action-types';
 import { CountryAction } from '../actions';
 
+interface SelectedCountry {
+  iso: string;
+  name: string;
+  prefix: string;
+}
+
 interface CountryState {
   loading: boolean;
   error: string | null;
-  selectedCountry: string;
+  selectedCountry: SelectedCountry;
 }
 
 const initialState = {
   loading: false,
   error: null,
-  selectedCountry: '',
+  selectedCountry: {
+    iso: '',
+    name: '',
+    prefix: '',
+  },
 };
 
 const reducer = (

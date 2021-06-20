@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { actionCreators, RootState } from '../state';
-import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Div = styled.div`
@@ -13,47 +13,77 @@ const Div = styled.div`
   border-radius: 20px;
   max-width: 500px;
   margin: auto;
-  margin-top: 300px;
+  margin-top: 200px;
   display: flex;
   flex-direction: column;
+  position: relative;
 `;
 
 const H1 = styled.h1`
   text-align: center;
 `;
 
-const Select = styled.select`
-  padding: 20px;
-  width: 10px;
+interface CountriesListProps {
+  countriesListVisible: boolean;
+  countriesLength: number | undefined;
+}
+
+const Input = styled.input<CountriesListProps>`
+  height: 40px;
+  padding: 10px;
+  outline: none;
+  font-size: 16px;
+  border: 1px solid var(--border-color);
+
+  border-radius: ${props =>
+    props.countriesListVisible &&
+    props.countriesLength &&
+    props.countriesLength > 0
+      ? '7px 7px 0 0'
+      : '7px'};
 `;
 
-const Button = styled.button`
-  background-color: var(--button-color);
-  border: none;
-  border-radius: 20px;
-  margin-top: 20px;
-  padding: 10px;
-  font-size: 20px;
-  font-weight: bold;
+const CountriesList = styled.div<CountriesListProps>`
+  border: 1px solid var(--border-color);
+  position: absolute;
+  width: 100%;
+  background-color: #fff;
+  margin-top: -1px;
+  border-radius: 0 0 7px 7px;
+
+  display: ${props =>
+    props.countriesListVisible &&
+    props.countriesLength &&
+    props.countriesLength > 0
+      ? 'block'
+      : 'none'};
+`;
+
+const Ul = styled.ul`
+  list-style: none;
+  margin: 0;
+  padding: 0;
+`;
+const Li = styled.li`
+  list-style: none;
+  padding: 5px;
+  cursor: pointer;
+  border-top: 1px solid var(--border-color);
+
+  &:hover {
+    background-color: #f4f4f4;
+  }
 `;
 
 const Home: React.FC = () => {
-  const [countries, setCountries] = useState([
-    {
-      id: '0',
-      name: 'Ireland',
-    },
-    {
-      id: '2',
-      name: 'India',
-    },
-    {
-      id: '3',
-      name: 'England',
-    },
-  ]);
-
-  const [selectedCountry, setSelectedCountry] = useState('');
+  interface Countries {
+    iso: string;
+    name: string;
+    prefix: string;
+  }
+  const [countries, setCountries] = useState<Countries[]>();
+  const [inputValue, setInputValue] = useState('');
+  const [countriesListVisible, setCountriesListVisible] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -64,30 +94,65 @@ const Home: React.FC = () => {
 
   const state = useSelector((state: RootState) => state);
 
+  const history = useHistory();
+
   useEffect(() => {
     const getCountries = () => {
-      // const data = getData();
-      // setCountries(data);
+      getData();
     };
 
     getCountries();
   }, []);
 
-  if (state.country.selectedCountry !== '') {
-    return <Redirect to="/home" />;
-  }
+  const selectCountry = (country: any) => {
+    submitCountry(country);
+  };
+
+  const filterCountries = (e: React.FormEvent<HTMLInputElement>) => {
+    setInputValue(e.currentTarget.value);
+
+    const filteredCountries = state.apiData.data.countries.filter(country =>
+      country.name.toLowerCase().includes(e.currentTarget.value.toLowerCase())
+    );
+
+    setCountries(filteredCountries);
+  };
 
   return (
     <Div>
       <H1>Select your country</H1>
-      <Select onChange={e => setSelectedCountry(e.target.value)}>
-        {countries.map(country => (
-          <option key={country.id} value={country.name}>
-            {country.name}
-          </option>
-        ))}
-      </Select>
-      <Button onClick={() => submitCountry(selectedCountry)}>Submit</Button>
+      <Input
+        type="text"
+        placeholder="Select Country"
+        value={inputValue}
+        countriesLength={countries && countries.length}
+        countriesListVisible={countriesListVisible}
+        onFocus={() => setCountriesListVisible(true)}
+        onBlur={() => setCountriesListVisible(false)}
+        onChange={filterCountries}
+      />
+      <div style={{ position: 'relative' }}>
+        <CountriesList
+          countriesListVisible={countriesListVisible}
+          countriesLength={countries && countries.length}
+        >
+          <Ul>
+            {countries &&
+              countries.map((country, i) => (
+                <Li
+                  key={i}
+                  value={country.name}
+                  onMouseDown={() => {
+                    selectCountry(country);
+                    history.push('/phone-number');
+                  }}
+                >
+                  +{country.prefix} {country.name}
+                </Li>
+              ))}
+          </Ul>
+        </CountriesList>
+      </div>
     </Div>
   );
 };

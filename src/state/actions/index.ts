@@ -21,5 +21,18 @@ export type DataAction =
 
 export interface CountryAction {
   type: ActionType.SUBMIT_COUNTRY;
+  payload: {
+    iso: string;
+    name: string;
+    prefix: string;
+  };
+}
+export interface PhoneNumberAction {
+  type: ActionType.SUBMIT_PHONE_NUMBER;
+  payload: string;
+}
+
+export interface OperatorAction {
+  type: ActionType.SUBMIT_OPERATOR;
   payload: string;
 }
