@@ -27,6 +27,7 @@ export interface CountryAction {
     prefix: string;
   };
 }
+
 export interface PhoneNumberAction {
   type: ActionType.SUBMIT_PHONE_NUMBER;
   payload: string;

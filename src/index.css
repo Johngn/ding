@@ -1,11 +1,12 @@
 :root {
-  --primary: #ccfff6;
+  --primary: #4eb3a0;
   --secondary: #dffffa;
   --tertiary: #78f1cd;
   --text-color: #004a59;
   --button-color: #f158ff;
   --button-hover-color: #ee7cf8;
   --border-color: #708c8c;
+  --border-hover-color: #eef7f7;
 }
 
 body {

@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Div from './Div';
 import Summary from './Summary';
+import LoadingSpinner from './LoadingSpinner';
 
 const ProductsContainer = styled.div`
   border-radius: 7px;
@@ -21,15 +22,17 @@ const ProductContainer = styled.div`
 `;
 
 const Product = styled.div`
-  border: 2px solid var(--button-color);
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--border-color);
+  border-right: 4px solid var(--border-color);
   font-size: 30px;
   border-radius: 10px;
   padding: 10px;
   cursor: pointer;
-  // background-color: var(--secondary);
+  transition: all 0.1s;
 
   &:hover {
-    background-color: var(--button-hover-color);
+    transform: scale(1.03);
   }
 `;
 
@@ -68,29 +71,35 @@ const ProductsPage: React.FC = () => {
 
   return (
     <>
-      <Div>
-        <h2 style={{ textAlign: 'center' }}>What do you want to send?</h2>
-        <ProductsContainer>
-          {products &&
-            products[0] &&
-            products[0].products.map((product, index) => (
-              <ProductContainer>
-                <Product
-                  key={index}
-                  onClick={() => {
-                    selectProduct(product);
-                    history.push('/confirm');
-                  }}
-                >
-                  {product}
-                </Product>
-              </ProductContainer>
-            ))}
-        </ProductsContainer>
-      </Div>
-      <Div>
-        <Summary />
-      </Div>
+      {state.apiData.loading ? (
+        <LoadingSpinner />
+      ) : (
+        <>
+          <Div>
+            <h2 style={{ textAlign: 'center' }}>What do you want to send?</h2>
+            <ProductsContainer>
+              {products &&
+                products[0] &&
+                products[0].products.map((product, index) => (
+                  <ProductContainer>
+                    <Product
+                      key={index}
+                      onClick={() => {
+                        selectProduct(product);
+                        history.push('/confirm');
+                      }}
+                    >
+                      {product}
+                    </Product>
+                  </ProductContainer>
+                ))}
+            </ProductsContainer>
+          </Div>
+          <Div>
+            <Summary />
+          </Div>
+        </>
+      )}
     </>
   );
 };

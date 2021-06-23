@@ -6,6 +6,7 @@ import { actionCreators, RootState } from '../state';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Div from './Div';
+import LoadingSpinner from './LoadingSpinner';
 
 interface CountriesListProps {
   countriesListVisible: boolean;
@@ -55,7 +56,7 @@ const Li = styled.li`
   border-top: 1px solid var(--border-color);
 
   &:hover {
-    background-color: var(--button-hover-color);
+    background-color: #f2f2f2;
   }
 `;
 
@@ -71,13 +72,17 @@ const Home: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const { submitCountry } = bindActionCreators(actionCreators, dispatch);
+  const { submitCountry, setLoading } = bindActionCreators(
+    actionCreators,
+    dispatch
+  );
 
   const state = useSelector((state: RootState) => state);
 
   const history = useHistory();
 
   const selectCountry = (country: any) => {
+    setLoading();
     submitCountry(country);
   };
 
@@ -92,41 +97,47 @@ const Home: React.FC = () => {
   };
 
   return (
-    <Div>
-      <h2 style={{ textAlign: 'center' }}>Where are you sending credit?</h2>
-      <Input
-        type="text"
-        placeholder="Select Country"
-        value={inputValue}
-        countriesLength={countries && countries.length}
-        countriesListVisible={countriesListVisible}
-        onFocus={() => setCountriesListVisible(true)}
-        onBlur={() => setCountriesListVisible(false)}
-        onChange={filterCountries}
-      />
-      <div style={{ position: 'relative' }}>
-        <CountriesList
-          countriesListVisible={countriesListVisible}
-          countriesLength={countries && countries.length}
-        >
-          <Ul>
-            {countries &&
-              countries.map((country, i) => (
-                <Li
-                  key={i}
-                  value={country.name}
-                  onMouseDown={() => {
-                    selectCountry(country);
-                    history.push('/phone-number');
-                  }}
-                >
-                  +{country.prefix} {country.name}
-                </Li>
-              ))}
-          </Ul>
-        </CountriesList>
-      </div>
-    </Div>
+    <>
+      {state.apiData.loading ? (
+        <LoadingSpinner />
+      ) : (
+        <Div>
+          <h2 style={{ textAlign: 'center' }}>Where are you sending credit?</h2>
+          <Input
+            type="text"
+            placeholder="Search for country"
+            value={inputValue}
+            countriesLength={countries && countries.length}
+            countriesListVisible={countriesListVisible}
+            onFocus={() => setCountriesListVisible(true)}
+            onBlur={() => setCountriesListVisible(false)}
+            onChange={filterCountries}
+          />
+          <div style={{ position: 'relative' }}>
+            <CountriesList
+              countriesListVisible={countriesListVisible}
+              countriesLength={countries && countries.length}
+            >
+              <Ul>
+                {countries &&
+                  countries.map((country, i) => (
+                    <Li
+                      key={i}
+                      value={country.name}
+                      onMouseDown={() => {
+                        selectCountry(country);
+                        history.push('/phone-number');
+                      }}
+                    >
+                      +{country.prefix} {country.name}
+                    </Li>
+                  ))}
+              </Ul>
+            </CountriesList>
+          </div>
+        </Div>
+      )}
+    </>
   );
 };
 

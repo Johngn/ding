@@ -7,9 +7,12 @@ import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Div from './Div';
 import Summary from './Summary';
+import LoadingSpinner from './LoadingSpinner';
 
 const OperatorContainer = styled.div`
-  border: 2px solid var(--button-color);
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--border-color);
+  border-right: 4px solid var(--border-color);
   border-radius: 10px;
   font-weight: bold;
   margin-bottom: 10px;
@@ -18,9 +21,11 @@ const OperatorContainer = styled.div`
   cursor: pointer;
   padding: 10px;
   width: 100%;
-  outline: none;
+
+  transition: all 0.1s;
+
   &:hover {
-    background-color: var(--button-hover-color);
+    transform: scale(1.02);
   }
 `;
 
@@ -54,24 +59,30 @@ const OperatorsPage: React.FC = () => {
 
   return (
     <>
-      <Div>
-        <h2 style={{ textAlign: 'center' }}>Select Operator</h2>
-        {operators &&
-          operators.map(operator => (
-            <OperatorContainer
-              key={operator.id}
-              onClick={() => {
-                selectOperator(operator);
-                history.push('/products');
-              }}
-            >
-              {operator.name}
-            </OperatorContainer>
-          ))}
-      </Div>
-      <Div>
-        <Summary />
-      </Div>
+      {state.apiData.loading ? (
+        <LoadingSpinner />
+      ) : (
+        <>
+          <Div>
+            <h2 style={{ textAlign: 'center' }}>Select Operator</h2>
+            {operators &&
+              operators.map(operator => (
+                <OperatorContainer
+                  key={operator.id}
+                  onClick={() => {
+                    selectOperator(operator);
+                    history.push('/products');
+                  }}
+                >
+                  {operator.name}
+                </OperatorContainer>
+              ))}
+          </Div>
+          <Div>
+            <Summary />
+          </Div>
+        </>
+      )}
     </>
   );
 };

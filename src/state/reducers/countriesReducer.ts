@@ -8,14 +8,10 @@ interface SelectedCountry {
 }
 
 interface CountryState {
-  loading: boolean;
-  error: string | null;
   selectedCountry: SelectedCountry;
 }
 
 const initialState = {
-  loading: false,
-  error: null,
   selectedCountry: {
     iso: '',
     name: '',
@@ -30,8 +26,6 @@ const reducer = (
   switch (action.type) {
     case ActionType.SUBMIT_COUNTRY:
       return {
-        loading: false,
-        error: null,
         selectedCountry: action.payload,
       };
     default:

@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import Div from './Div';
 import Button from './Button';
 import Summary from './Summary';
+import LoadingSpinner from './LoadingSpinner';
 
 const H1 = styled.h2`
   text-align: center;
@@ -89,7 +90,10 @@ const PhoneNumberPage: React.FC = () => {
 
   const selectPhoneNumber = () => {
     // Some simple validation, check if phone number is at least 7 digits long
-    if (phoneNumber.toString().length >= 7) {
+    if (
+      phoneNumber.toString().length >= 7 &&
+      phoneNumber.toString().length <= 10
+    ) {
       setPhoneNumberError(false);
       submitPhoneNumber(phoneNumber.toString());
       history.push('/operators');
@@ -100,31 +104,37 @@ const PhoneNumberPage: React.FC = () => {
 
   return (
     <>
-      <Div>
-        <H1>Who are you sending credit to?</H1>
-        <InputContainer style={{ display: 'flex', width: '100%' }}>
-          <PrefixContainer phoneNumberError={phoneNumberError}>
-            + {state.country.selectedCountry.prefix}
-          </PrefixContainer>
-          <Input
-            phoneNumberError={phoneNumberError}
-            placeholder="Enter phone number"
-            value={phoneNumber}
-            onChange={e => {
-              setPhoneNumber(e.target.value.replace(/[^0-9]+/g, ''));
-              setPhoneNumberError(false);
-            }}
-          />
-        </InputContainer>
-        <Warning phoneNumberError={phoneNumberError}>
-          Please enter a valid number
-        </Warning>
+      {state.apiData.loading ? (
+        <LoadingSpinner />
+      ) : (
+        <>
+          <Div>
+            <H1>Who are you sending credit to?</H1>
+            <InputContainer style={{ display: 'flex', width: '100%' }}>
+              <PrefixContainer phoneNumberError={phoneNumberError}>
+                + {state.country.selectedCountry.prefix}
+              </PrefixContainer>
+              <Input
+                phoneNumberError={phoneNumberError}
+                placeholder="Enter phone number"
+                value={phoneNumber}
+                onChange={e => {
+                  setPhoneNumber(e.target.value.replace(/[^0-9]+/g, ''));
+                  setPhoneNumberError(false);
+                }}
+              />
+            </InputContainer>
+            <Warning phoneNumberError={phoneNumberError}>
+              Please enter a valid number
+            </Warning>
 
-        <Button onClick={selectPhoneNumber}>Submit</Button>
-      </Div>
-      <Div>
-        <Summary />
-      </Div>
+            <Button onClick={selectPhoneNumber}>Submit</Button>
+          </Div>
+          <Div>
+            <Summary />
+          </Div>
+        </>
+      )}
     </>
   );
 };

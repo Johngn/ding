@@ -6,4 +6,6 @@ export enum ActionType {
   SUBMIT_PHONE_NUMBER = 'submit_phone_number',
   SUBMIT_OPERATOR = 'submit_operator',
   SUBMIT_PRODUCT = 'submit_product',
+  START_LOADING = 'start_loading',
+  STOP_LOADING = 'stop_loading',
 }

@@ -8,14 +8,10 @@ interface SelectedOperator {
 }
 
 interface OperatorState {
-  loading: boolean;
-  error: string | null;
   selectedOperator: SelectedOperator;
 }
 
 const initialState = {
-  loading: false,
-  error: null,
   selectedOperator: {
     id: '',
     iso: '',
@@ -30,8 +26,6 @@ const reducer = (
   switch (action.type) {
     case ActionType.SUBMIT_OPERATOR:
       return {
-        loading: false,
-        error: null,
         selectedOperator: action.payload,
       };
     default:

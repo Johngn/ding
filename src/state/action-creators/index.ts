@@ -106,3 +106,11 @@ export const submitProduct = (product: string) => {
     localStorage.setItem('product', product);
   };
 };
+
+export const setLoading = () => {
+  return (dispatch: Dispatch) => {
+    dispatch({
+      type: ActionType.START_LOADING,
+    });
+  };
+};
