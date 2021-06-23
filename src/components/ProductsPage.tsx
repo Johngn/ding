@@ -6,6 +6,7 @@ import { actionCreators, RootState } from '../state';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Div from './Div';
+import Summary from './Summary';
 
 const ProductsContainer = styled.div`
   border-radius: 7px;
@@ -16,20 +17,19 @@ const ProductsContainer = styled.div`
 const ProductContainer = styled.div`
   border-radius: 7px;
   padding: 10px;
-  // margin: 10px;
   width: 50%;
 `;
 
 const Product = styled.div`
+  border: 2px solid var(--button-color);
   font-size: 30px;
-  border: 3px solid var(--border-color);
   border-radius: 10px;
   padding: 10px;
   cursor: pointer;
+  // background-color: var(--secondary);
 
   &:hover {
-    background-color: var(--secondary);
-    color: #fff;
+    background-color: var(--button-hover-color);
   }
 `;
 
@@ -67,26 +67,31 @@ const ProductsPage: React.FC = () => {
   };
 
   return (
-    <Div>
-      <h2 style={{ textAlign: 'center' }}>What do you want to send?</h2>
-      <ProductsContainer>
-        {products &&
-          products[0] &&
-          products[0].products.map((product, index) => (
-            <ProductContainer>
-              <Product
-                key={index}
-                onClick={() => {
-                  selectProduct(product);
-                  history.push('/success');
-                }}
-              >
-                &euro;{product}
-              </Product>
-            </ProductContainer>
-          ))}
-      </ProductsContainer>
-    </Div>
+    <>
+      <Div>
+        <h2 style={{ textAlign: 'center' }}>What do you want to send?</h2>
+        <ProductsContainer>
+          {products &&
+            products[0] &&
+            products[0].products.map((product, index) => (
+              <ProductContainer>
+                <Product
+                  key={index}
+                  onClick={() => {
+                    selectProduct(product);
+                    history.push('/confirm');
+                  }}
+                >
+                  {product}
+                </Product>
+              </ProductContainer>
+            ))}
+        </ProductsContainer>
+      </Div>
+      <Div>
+        <Summary />
+      </Div>
+    </>
   );
 };
 

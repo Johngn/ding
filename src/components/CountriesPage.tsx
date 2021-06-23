@@ -55,7 +55,7 @@ const Li = styled.li`
   border-top: 1px solid var(--border-color);
 
   &:hover {
-    background-color: #f4f4f4;
+    background-color: var(--button-hover-color);
   }
 `;
 
@@ -93,9 +93,7 @@ const Home: React.FC = () => {
 
   return (
     <Div>
-      <h2 style={{ textAlign: 'center' }}>
-        Select country you're sending credit to
-      </h2>
+      <h2 style={{ textAlign: 'center' }}>Where are you sending credit?</h2>
       <Input
         type="text"
         placeholder="Select Country"

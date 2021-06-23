@@ -6,6 +6,8 @@ import { actionCreators, RootState } from '../state';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Div from './Div';
+import Button from './Button';
+import Summary from './Summary';
 
 const H1 = styled.h2`
   text-align: center;
@@ -17,17 +19,25 @@ const InputContainer = styled.div`
   font-size: 16px;
 `;
 
-const PrefixContainer = styled.div`
-  width: 15%;
-  border: 1px solid var(--border-color);
-  border-right: 1px solid var(--border-color);
-  padding: 10px;
-  border-radius: 7px 0 0 7px;
-`;
-
 interface InputProps {
   phoneNumberError: boolean;
 }
+
+const PrefixContainer = styled.div<InputProps>`
+  width: 15%;
+  border: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px 0 0 7px;
+  font-size: 20px;
+
+  border: ${props =>
+    props.phoneNumberError
+      ? '1px solid red;'
+      : '1px solid var(--border-color);'};
+`;
 
 const Input = styled.input<InputProps>`
   border-radius: 0 7px 7px 0;
@@ -35,6 +45,7 @@ const Input = styled.input<InputProps>`
   padding: 10px;
   width: 85%;
   outline: none;
+  font-size: 20px;
 
   border: ${props =>
     props.phoneNumberError
@@ -48,17 +59,6 @@ const Warning = styled.div<InputProps>`
   color: red;
   margin-top: 10px;
   display: ${props => (props.phoneNumberError ? 'block' : 'none')};
-`;
-
-const Button = styled.button`
-  background-color: var(--button-color);
-  border: none;
-  border-radius: 20px;
-  margin-top: 20px;
-  padding: 10px;
-  font-size: 20px;
-  font-weight: bold;
-  cursor: pointer;
 `;
 
 const PhoneNumberPage: React.FC = () => {
@@ -86,6 +86,7 @@ const PhoneNumberPage: React.FC = () => {
   );
 
   const state = useSelector((state: RootState) => state);
+  const { country } = state;
 
   const selectPhoneNumber = () => {
     // Some simple validation, check if phone number is at least 7 digits long
@@ -99,28 +100,33 @@ const PhoneNumberPage: React.FC = () => {
   };
 
   return (
-    <Div>
-      <H1>Who are you sending credit to?</H1>
-      <InputContainer style={{ display: 'flex', width: '100%' }}>
-        <PrefixContainer>
-          + {state.country.selectedCountry.prefix}
-        </PrefixContainer>
-        <Input
-          phoneNumberError={phoneNumberError}
-          placeholder="Enter phone number"
-          value={phoneNumber}
-          onChange={e => {
-            setPhoneNumber(e.target.value.replace(/[^0-9]+/g, ''));
-            setPhoneNumberError(false);
-          }}
-        />
-      </InputContainer>
-      <Warning phoneNumberError={phoneNumberError}>
-        Please enter a valid number
-      </Warning>
+    <>
+      <Div>
+        <H1>Who are you sending credit to?</H1>
+        <InputContainer style={{ display: 'flex', width: '100%' }}>
+          <PrefixContainer phoneNumberError={phoneNumberError}>
+            + {state.country.selectedCountry.prefix}
+          </PrefixContainer>
+          <Input
+            phoneNumberError={phoneNumberError}
+            placeholder="Enter phone number"
+            value={phoneNumber}
+            onChange={e => {
+              setPhoneNumber(e.target.value.replace(/[^0-9]+/g, ''));
+              setPhoneNumberError(false);
+            }}
+          />
+        </InputContainer>
+        <Warning phoneNumberError={phoneNumberError}>
+          Please enter a valid number
+        </Warning>
 
-      <Button onClick={selectPhoneNumber}>Submit</Button>
-    </Div>
+        <Button onClick={selectPhoneNumber}>Submit</Button>
+      </Div>
+      <Div>
+        <Summary />
+      </Div>
+    </>
   );
 };
 

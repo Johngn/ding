@@ -4,7 +4,9 @@ import CountriesPage from './components/CountriesPage';
 import PhoneNumberPage from './components/PhoneNumberPage';
 import OperatorsPage from './components/OperatorsPage';
 import ProductsPage from './components/ProductsPage';
-import Error from './components/404Page';
+import NotFound from './components/404Page';
+import Success from './components/Success';
+import Confirm from './components/Confirm';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -30,7 +32,9 @@ const App = () => {
           <Route path="/phone-number" exact component={PhoneNumberPage} />
           <Route path="/operators" exact component={OperatorsPage} />
           <Route path="/products" exact component={ProductsPage} />
-          <Route component={Error} />
+          <Route path="/success" exact component={Success} />
+          <Route path="/confirm" exact component={Confirm} />
+          <Route component={NotFound} />
         </Switch>
       </div>
     </BrowserRouter>

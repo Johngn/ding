@@ -6,8 +6,10 @@ import { actionCreators, RootState } from '../state';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Div from './Div';
+import Button from './Button';
+import Summary from './Summary';
 
-const Success: React.FC = () => {
+const Confirm: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -33,19 +35,12 @@ const Success: React.FC = () => {
   const { submitProduct, submitOperator, submitPhoneNumber, submitCountry } =
     bindActionCreators(actionCreators, dispatch);
 
-  const state = useSelector((state: RootState) => state);
-
-  const { country, phoneNumber, operator, product } = state;
-
   return (
     <Div>
-      <h2 style={{ textAlign: 'center' }}>Success!</h2>
-      <h3 style={{ textAlign: 'center' }}>
-        Your TopUp to +{country.selectedCountry.prefix}{' '}
-        {phoneNumber.selectedPhoneNumber} was successful
-      </h3>
+      <Summary />
+      <Button onClick={() => history.push('/success')}>Confirm Payment</Button>
     </Div>
   );
 };
 
-export default Success;
+export default Confirm;

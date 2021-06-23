@@ -4,10 +4,10 @@ const Div = styled.div`
   background-color: #fff;
   color: var(--text-color);
   padding: 1rem 2rem;
-  border-radius: 20px;
-  max-width: 500px;
+  border-radius: 10px;
+  max-width: 700px;
   margin: auto;
-  margin-top: 200px;
+  margin-top: 100px;
   display: flex;
   flex-direction: column;
   position: relative;

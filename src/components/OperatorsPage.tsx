@@ -6,23 +6,21 @@ import { actionCreators, RootState } from '../state';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Div from './Div';
-
-const H1 = styled.h2`
-  text-align: center;
-`;
+import Summary from './Summary';
 
 const OperatorContainer = styled.div`
-  border: 2px solid var(--border-color);
-  border-radius: 7px;
+  border: 2px solid var(--button-color);
+  border-radius: 10px;
+  font-weight: bold;
   margin-bottom: 10px;
+  font-size: 20px;
   text-align: center;
   cursor: pointer;
   padding: 10px;
   width: 100%;
   outline: none;
   &:hover {
-    background-color: var(--secondary);
-    color: #fff;
+    background-color: var(--button-hover-color);
   }
 `;
 
@@ -55,21 +53,26 @@ const OperatorsPage: React.FC = () => {
   };
 
   return (
-    <Div>
-      <H1>Select Operator</H1>
-      {operators &&
-        operators.map(operator => (
-          <OperatorContainer
-            key={operator.id}
-            onClick={() => {
-              selectOperator(operator);
-              history.push('/products');
-            }}
-          >
-            {operator.name}
-          </OperatorContainer>
-        ))}
-    </Div>
+    <>
+      <Div>
+        <h2 style={{ textAlign: 'center' }}>Select Operator</h2>
+        {operators &&
+          operators.map(operator => (
+            <OperatorContainer
+              key={operator.id}
+              onClick={() => {
+                selectOperator(operator);
+                history.push('/products');
+              }}
+            >
+              {operator.name}
+            </OperatorContainer>
+          ))}
+      </Div>
+      <Div>
+        <Summary />
+      </Div>
+    </>
   );
 };
 
