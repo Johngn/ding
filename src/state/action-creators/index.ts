@@ -1,4 +1,4 @@
-import axios from 'axios';
+// import axios from 'axios';
 import { Dispatch } from 'redux';
 import { ActionType } from '../action-types';
 import {
@@ -17,11 +17,11 @@ export const getData = () => {
     });
 
     try {
-      const { data } = await axios.get(
-        `https://app.fakejson.com/q/xdOdc9ZF?token=${process.env.REACT_APP_API_KEY}`
-      );
+      // const { data } = await axios.get(
+      //   `https://app.fakejson.com/q/xdOdc9ZF?token=${process.env.REACT_APP_API_KEY}`
+      // );
 
-      // const data = apidata;
+      const data = apidata;
 
       dispatch({
         type: ActionType.GET_API_DATA_SUCCESS,

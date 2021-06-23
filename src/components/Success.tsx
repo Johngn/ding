@@ -3,13 +3,10 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { actionCreators, RootState } from '../state';
-import { useHistory } from 'react-router-dom';
-import styled from 'styled-components';
 import Div from './Div';
 
 const Success: React.FC = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
 
   useEffect(() => {
     if (localStorage.getItem('country')) {
@@ -35,7 +32,7 @@ const Success: React.FC = () => {
 
   const state = useSelector((state: RootState) => state);
 
-  const { country, phoneNumber, operator, product } = state;
+  const { country, phoneNumber } = state;
 
   return (
     <Div>

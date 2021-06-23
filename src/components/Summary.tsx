@@ -3,7 +3,6 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../state';
 import styled from 'styled-components';
-import Div from './Div';
 
 const SummaryItem = styled.div`
   display: flex;

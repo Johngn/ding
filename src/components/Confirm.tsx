@@ -1,10 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { actionCreators, RootState } from '../state';
+import { actionCreators } from '../state';
 import { useHistory } from 'react-router-dom';
-import styled from 'styled-components';
 import Div from './Div';
 import Button from './Button';
 import Summary from './Summary';
