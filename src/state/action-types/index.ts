@@ -5,4 +5,5 @@ export enum ActionType {
   SUBMIT_COUNTRY = 'submit_country',
   SUBMIT_PHONE_NUMBER = 'submit_phone_number',
   SUBMIT_OPERATOR = 'submit_operator',
+  SUBMIT_PRODUCT = 'submit_product',
 }

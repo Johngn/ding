@@ -34,5 +34,14 @@ export interface PhoneNumberAction {
 
 export interface OperatorAction {
   type: ActionType.SUBMIT_OPERATOR;
+  payload: {
+    id: string;
+    iso: string;
+    name: string;
+  };
+}
+
+export interface ProductAction {
+  type: ActionType.SUBMIT_PRODUCT;
   payload: string;
 }

@@ -1,27 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { actionCreators, RootState } from '../state';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-
-const Div = styled.div`
-  background-color: #fff;
-  color: var(--text-color);
-  padding: 1rem 2rem;
-  border-radius: 20px;
-  max-width: 500px;
-  margin: auto;
-  margin-top: 200px;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-`;
-
-const H1 = styled.h1`
-  text-align: center;
-`;
+import Div from './Div';
 
 interface CountriesListProps {
   countriesListVisible: boolean;
@@ -87,22 +71,11 @@ const Home: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const { getData, submitCountry } = bindActionCreators(
-    actionCreators,
-    dispatch
-  );
+  const { submitCountry } = bindActionCreators(actionCreators, dispatch);
 
   const state = useSelector((state: RootState) => state);
 
   const history = useHistory();
-
-  useEffect(() => {
-    const getCountries = () => {
-      getData();
-    };
-
-    getCountries();
-  }, []);
 
   const selectCountry = (country: any) => {
     submitCountry(country);
@@ -120,7 +93,9 @@ const Home: React.FC = () => {
 
   return (
     <Div>
-      <H1>Select your country</H1>
+      <h2 style={{ textAlign: 'center' }}>
+        Select country you're sending credit to
+      </h2>
       <Input
         type="text"
         placeholder="Select Country"

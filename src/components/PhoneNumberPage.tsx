@@ -1,23 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { actionCreators, RootState } from '../state';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-
-const Div = styled.div`
-  background-color: #fff;
-  color: var(--text-color);
-  padding: 1rem 2rem;
-  border-radius: 20px;
-  max-width: 500px;
-  margin: auto;
-  margin-top: 200px;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-`;
+import Div from './Div';
 
 const H1 = styled.h2`
   text-align: center;
@@ -78,17 +66,32 @@ const PhoneNumberPage: React.FC = () => {
   const [phoneNumberError, setPhoneNumberError] = useState(false);
   const history = useHistory();
 
+  useEffect(() => {
+    if (localStorage.getItem('country')) {
+      const country = localStorage.getItem('country') || '{}';
+      submitCountry(JSON.parse(country));
+    }
+
+    if (localStorage.getItem('phoneNumber')) {
+      const phoneNumber = localStorage.getItem('phoneNumber') || '{}';
+      setPhoneNumber(JSON.parse(phoneNumber));
+    }
+  }, []);
+
   const dispatch = useDispatch();
 
-  const { submitPhoneNumber } = bindActionCreators(actionCreators, dispatch);
+  const { submitPhoneNumber, submitCountry } = bindActionCreators(
+    actionCreators,
+    dispatch
+  );
 
   const state = useSelector((state: RootState) => state);
 
   const selectPhoneNumber = () => {
-    console.log(phoneNumber.length);
-    if (phoneNumber.length > 6) {
+    // Some simple validation, check if phone number is at least 7 digits long
+    if (phoneNumber.toString().length >= 7) {
       setPhoneNumberError(false);
-      submitPhoneNumber(phoneNumber);
+      submitPhoneNumber(phoneNumber.toString());
       history.push('/operators');
     } else {
       setPhoneNumberError(true);

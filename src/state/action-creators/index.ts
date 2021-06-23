@@ -1,4 +1,4 @@
-// import axios from 'axios';
+import axios from 'axios';
 import { Dispatch } from 'redux';
 import { ActionType } from '../action-types';
 import {
@@ -6,6 +6,7 @@ import {
   CountryAction,
   PhoneNumberAction,
   OperatorAction,
+  ProductAction,
 } from '../actions';
 import apidata from '../../ding-data.json';
 
@@ -16,11 +17,11 @@ export const getData = () => {
     });
 
     try {
-      // const { data } = await axios.get(
-      //   `https://app.fakejson.com/q/xdOdc9ZF?token=${process.env.REACT_APP_API_KEY}000`
-      // );
+      const { data } = await axios.get(
+        `https://app.fakejson.com/q/xdOdc9ZF?token=${process.env.REACT_APP_API_KEY}`
+      );
 
-      const data = apidata;
+      // const data = apidata;
 
       dispatch({
         type: ActionType.GET_API_DATA_SUCCESS,
@@ -48,6 +49,15 @@ export const submitCountry = (country: SelectedCountry) => {
       type: ActionType.SUBMIT_COUNTRY,
       payload: country,
     });
+
+    localStorage.setItem(
+      'country',
+      JSON.stringify({
+        name: country.name,
+        iso: country.iso,
+        prefix: country.prefix,
+      })
+    );
   };
 };
 
@@ -57,14 +67,42 @@ export const submitPhoneNumber = (phoneNumber: string) => {
       type: ActionType.SUBMIT_PHONE_NUMBER,
       payload: phoneNumber,
     });
+
+    localStorage.setItem('phoneNumber', phoneNumber);
   };
 };
 
-export const submitOperator = (operator: string) => {
+interface SelectedOperator {
+  id: string;
+  iso: string;
+  name: string;
+}
+
+export const submitOperator = (operator: SelectedOperator) => {
   return (dispatch: Dispatch<OperatorAction>) => {
     dispatch({
       type: ActionType.SUBMIT_OPERATOR,
       payload: operator,
     });
+
+    localStorage.setItem(
+      'operator',
+      JSON.stringify({
+        id: operator.id,
+        iso: operator.iso,
+        name: operator.name,
+      })
+    );
+  };
+};
+
+export const submitProduct = (product: string) => {
+  return (dispatch: Dispatch<ProductAction>) => {
+    dispatch({
+      type: ActionType.SUBMIT_PRODUCT,
+      payload: product,
+    });
+
+    localStorage.setItem('product', product);
   };
 };

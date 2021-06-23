@@ -1,58 +1,91 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { actionCreators, RootState } from '../state';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import Div from './Div';
 
-const Div = styled.div`
-  background-color: #fff;
-  color: var(--text-color);
-  padding: 1rem 2rem;
-  border-radius: 20px;
-  max-width: 500px;
-  margin: auto;
-  margin-top: 200px;
+const ProductsContainer = styled.div`
+  border-radius: 7px;
   display: flex;
-  flex-direction: column;
-  position: relative;
+  flex-wrap: wrap;
 `;
 
-const H1 = styled.h2`
-  text-align: center;
-`;
-
-const Select = styled.select`
-  border: 1px solid var(--border-color);
+const ProductContainer = styled.div`
   border-radius: 7px;
   padding: 10px;
-  width: 100%;
-  outline: none;
+  // margin: 10px;
+  width: 50%;
+`;
+
+const Product = styled.div`
+  font-size: 30px;
+  border: 3px solid var(--border-color);
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--secondary);
+    color: #fff;
+  }
 `;
 
 const ProductsPage: React.FC = () => {
-  const [operator, setOperator] = useState('');
+  const history = useHistory();
+
+  useEffect(() => {
+    if (localStorage.getItem('country')) {
+      const country = localStorage.getItem('country') || '{}';
+      submitCountry(JSON.parse(country));
+    }
+    if (localStorage.getItem('phoneNumber')) {
+      const phoneNumber = localStorage.getItem('phoneNumber') || '{}';
+      submitPhoneNumber(JSON.parse(phoneNumber));
+    }
+    if (localStorage.getItem('operator')) {
+      const operator = localStorage.getItem('operator') || '{}';
+      submitOperator(JSON.parse(operator));
+    }
+  }, []);
 
   const dispatch = useDispatch();
 
-  const { submitPhoneNumber } = bindActionCreators(actionCreators, dispatch);
+  const { submitProduct, submitOperator, submitPhoneNumber, submitCountry } =
+    bindActionCreators(actionCreators, dispatch);
 
   const state = useSelector((state: RootState) => state);
 
-  const operators = state.apiData.data.operators.filter(
-    operator => operator.iso === state.country.selectedCountry.iso
+  const products = state.apiData.data.products.filter(
+    product => product.id === state.operator.selectedOperator.id
   );
+
+  const selectProduct = (product: any) => {
+    submitProduct(product);
+  };
 
   return (
     <Div>
-      <H1>Select Product</H1>
-      <Select>
-        <option></option>
-        {operators &&
-          operators.map((operator, i) => (
-            <option key={i}>{operator.name}</option>
+      <h2 style={{ textAlign: 'center' }}>What do you want to send?</h2>
+      <ProductsContainer>
+        {products &&
+          products[0] &&
+          products[0].products.map((product, index) => (
+            <ProductContainer>
+              <Product
+                key={index}
+                onClick={() => {
+                  selectProduct(product);
+                  history.push('/success');
+                }}
+              >
+                &euro;{product}
+              </Product>
+            </ProductContainer>
           ))}
-      </Select>
+      </ProductsContainer>
     </Div>
   );
 };

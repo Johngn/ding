@@ -7,26 +7,7 @@ import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Div from './Div';
 
-const H1 = styled.h2`
-  text-align: center;
-`;
-
-const OperatorContainer = styled.div`
-  border: 2px solid var(--border-color);
-  border-radius: 7px;
-  margin-bottom: 10px;
-  text-align: center;
-  cursor: pointer;
-  padding: 10px;
-  width: 100%;
-  outline: none;
-  &:hover {
-    background-color: var(--secondary);
-    color: #fff;
-  }
-`;
-
-const OperatorsPage: React.FC = () => {
+const Success: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -56,21 +37,9 @@ const OperatorsPage: React.FC = () => {
 
   return (
     <Div>
-      <H1>Select Operator</H1>
-      {operators &&
-        operators.map(operator => (
-          <OperatorContainer
-            key={operator.id}
-            onClick={() => {
-              selectOperator(operator);
-              history.push('/products');
-            }}
-          >
-            {operator.name}
-          </OperatorContainer>
-        ))}
+      <h2>Success!</h2>
     </Div>
   );
 };
 
-export default OperatorsPage;
+export default Success;

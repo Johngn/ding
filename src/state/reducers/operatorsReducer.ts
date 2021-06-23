@@ -1,15 +1,26 @@
 import { ActionType } from '../action-types';
 import { OperatorAction } from '../actions';
 
+interface SelectedOperator {
+  id: string;
+  iso: string;
+  name: string;
+}
+
 interface OperatorState {
   loading: boolean;
   error: string | null;
-  selectedOperator: string;
+  selectedOperator: SelectedOperator;
 }
+
 const initialState = {
   loading: false,
   error: null,
-  selectedOperator: '',
+  selectedOperator: {
+    id: '',
+    iso: '',
+    name: '',
+  },
 };
 
 const reducer = (
