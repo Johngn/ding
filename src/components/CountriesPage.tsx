@@ -102,39 +102,47 @@ const Home: React.FC = () => {
         <LoadingSpinner />
       ) : (
         <Div>
-          <h2 style={{ textAlign: 'center' }}>Where are you sending credit?</h2>
-          <Input
-            type="text"
-            placeholder="Search for country"
-            value={inputValue}
-            countriesLength={countries && countries.length}
-            countriesListVisible={countriesListVisible}
-            onFocus={() => setCountriesListVisible(true)}
-            onBlur={() => setCountriesListVisible(false)}
-            onChange={filterCountries}
-          />
-          <div style={{ position: 'relative' }}>
-            <CountriesList
-              countriesListVisible={countriesListVisible}
-              countriesLength={countries && countries.length}
-            >
-              <Ul>
-                {countries &&
-                  countries.map((country, i) => (
-                    <Li
-                      key={i}
-                      value={country.name}
-                      onMouseDown={() => {
-                        selectCountry(country);
-                        history.push('/phone-number');
-                      }}
-                    >
-                      +{country.prefix} {country.name}
-                    </Li>
-                  ))}
-              </Ul>
-            </CountriesList>
-          </div>
+          {state.apiData.error ? (
+            <h3 style={{ color: 'red' }}>Server Error</h3>
+          ) : (
+            <>
+              <h2 style={{ textAlign: 'center' }}>
+                Where are you sending credit?
+              </h2>
+              <Input
+                type="text"
+                placeholder="Search for country"
+                value={inputValue}
+                countriesLength={countries && countries.length}
+                countriesListVisible={countriesListVisible}
+                onFocus={() => setCountriesListVisible(true)}
+                onBlur={() => setCountriesListVisible(false)}
+                onChange={filterCountries}
+              />
+              <div style={{ position: 'relative' }}>
+                <CountriesList
+                  countriesListVisible={countriesListVisible}
+                  countriesLength={countries && countries.length}
+                >
+                  <Ul>
+                    {countries &&
+                      countries.map((country, i) => (
+                        <Li
+                          key={i}
+                          value={country.name}
+                          onMouseDown={() => {
+                            selectCountry(country);
+                            history.push('/phone-number');
+                          }}
+                        >
+                          +{country.prefix} {country.name}
+                        </Li>
+                      ))}
+                  </Ul>
+                </CountriesList>
+              </div>
+            </>
+          )}
         </Div>
       )}
     </>

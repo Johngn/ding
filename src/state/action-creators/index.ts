@@ -21,6 +21,7 @@ export const getData = () => {
       //   `https://app.fakejson.com/q/xdOdc9ZF?token=${process.env.REACT_APP_API_KEY}`
       // );
 
+      // fakejson.com keeps timing out so I just saved the data locally
       const data = apidata;
 
       dispatch({
