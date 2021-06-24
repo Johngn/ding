@@ -89,7 +89,7 @@ const PhoneNumberPage: React.FC = () => {
   const state = useSelector((state: RootState) => state);
 
   const selectPhoneNumber = () => {
-    // Some simple validation, check if phone number is at least 7 digits long
+    // Some simple validation, check if phone number is a reasonable length
     if (
       phoneNumber.toString().length >= 7 &&
       phoneNumber.toString().length <= 10

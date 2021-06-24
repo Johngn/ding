@@ -16,7 +16,6 @@ const Summary: React.FC = () => {
 
   return (
     <>
-      {/* <h2 style={{ textAlign: 'center' }}>Summary</h2> */}
       <SummaryItem>
         {country.selectedCountry.name !== '' ? (
           <>
